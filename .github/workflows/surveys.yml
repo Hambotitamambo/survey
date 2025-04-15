@@ -1,14 +1,28 @@
-name: Run Survey Bot
+name: Mobrog Auto-Survey
 on:
   schedule:
-    - cron: '0 */6 * * *'  # يعمل كل 6 ساعات
+    - cron: '0 */6 * * *'  # يعمل كل 6 ساعات (تعدل الوقت كما تريد)
+  workflow_dispatch:  # يسمح بتشغيله يدوياً
+
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
       - name: Install dependencies
         run: |
-          pip install selenium
+          pip install selenium webdriver-manager
+          sudo apt-get install -y chromium-browser
+
       - name: Run Bot
         run: python main.py
+        env:
+          MOBROG_EMAIL: ${{ secrets.EMAIL }}
+          MOBROG_PASSWORD: ${{ secrets.PASSWORD }}
