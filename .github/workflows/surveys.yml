@@ -1,0 +1,14 @@
+name: Run Survey Bot
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # يعمل كل 6 ساعات
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          pip install selenium
+      - name: Run Bot
+        run: python main.py
